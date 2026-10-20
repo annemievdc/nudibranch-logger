@@ -1,5 +1,6 @@
 # 🐌 Nudibranch Logger
 
+
 A full-stack web application for scuba diving enthusiasts to document their dives, record nudibranch sightings, and manage their underwater discoveries.
 
 Built with **Java 21, Spring Boot, Thymeleaf, Spring Security, and H2**, the project demonstrates server-side web development, relational database design, authentication, role-based authorization, and cloud image storage.
@@ -11,6 +12,19 @@ Nudibranch Logger is a diving logbook and marine-life observation application.
 The project focuses on combining dive records with nudibranch sightings in a single web application. It was developed as a learning and portfolio project to gain practical experience with Java and the Spring ecosystem.
 
 The application uses a server-rendered architecture with Thymeleaf templates and Spring Boot controllers.
+## 📸 Screenshots
+
+- Home page
+- <img width="1885" height="897" alt="image" src="https://github.com/user-attachments/assets/fa6df934-ede4-4007-a640-4d2bc20da4dd" />
+-Nudis overview
+<img width="1887" height="787" alt="image" src="https://github.com/user-attachments/assets/629b4ce5-3de2-4bb9-897e-c3d3bb774b56" />
+-Nudi Details
+<img width="1895" height="882" alt="image" src="https://github.com/user-attachments/assets/921c6678-3f8d-4966-b85d-41a0981747f7" />
+-Friend Details
+<img width="1896" height="883" alt="image" src="https://github.com/user-attachments/assets/84a5d5a0-f1e9-4cb2-96b7-2843f29f5fb0" />
+
+- Dive log overview
+- <img width="1888" height="902" alt="image" src="https://github.com/user-attachments/assets/2ea2b91c-2314-4928-9117-b5139c706603" />
 
 ## ✨ Features
 
@@ -144,17 +158,7 @@ A `Dockerfile` is included for containerizing the application.
 
 Docker deployments must also supply the required environment variables. Credentials should never be embedded directly in the image or committed to version control.
 
-## 📸 Screenshots
 
-Screenshots of the application can be added here to demonstrate the user interface and main functionality.
-
-Suggested screenshots:
-
-- Home page
-- Dive log overview
-- Nudibranch sighting details
-- Image upload interface
-- Administrator interface
 
 ## 🎯 What I Learned
 
