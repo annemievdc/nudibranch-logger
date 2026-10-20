@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/header :: headerelement(${pageTitle})}"></head>
+
+<body>
+
+<div th:replace="~{fragments/header :: navbar}"></div>
+
+<main class="container-fluid d-flex flex-column justify-content-center align-items-center">
+
+    <!-- Title -->
+    <h1 class="display-3 mb-3">Oepsie... </h1>
+
+    <!-- Intro -->
+    <p class="lead mb-4">
+        Er is iets misgegaan...
+    </p>
+
+
+    <!-- Image  -->
+    <div class="nudi-image mb-5">
+        <img src="/img/error.webp" alt="Error" class="img-fluid rounded shadow-lg" style="max-height: 400px; object-fit: cover;">
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

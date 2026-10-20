@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/header :: headerelement(${pageTitle})}"></head>
+<body class="details-page">
+
+<div th:replace="~{fragments/header :: navbar}"></div>
+
+<main class="container-fluid" th:object="${sighting}">
+
+
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-lg-8 p-4 bg-dark rounded shadow-sm">
+            <h1>Nieuwe Waarneming</h1>
+
+            <form  th:action="@{|/admin/sighting-new|}" method="post" th:object="${sighting}">
+                <div class="col-12 bg-danger text-white mb-2"
+                     th:if="${#fields.hasAnyErrors()}">
+                    ERROR - data not saved
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="sightingFriend">Naam van de spotter</label>
+                        <select name="sightingFriend" id="sightingFriend" th:field="*{friend.friendId}">
+                            <option value="">Kies een vriend</option>
+                            <option th:each="f: ${allFriends}" th:value="${f.friendId}" th:text="${f.friendName}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="location">Divespot</label>
+                        <select name="location" id="location" th:field="*{location}">
+                            <option value="">Kies een locatie</option>
+                            <option th:each="l: ${allLocations}" th:value="${l.locationId}" th:text="${l.locationDivespot + ' - ' + l.locationCity+ ', ' + l.locationCountry}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="nudi">Nudibranch</label>
+                        <select name="nudin" id="nudi" th:field="*{nudibranch}">
+                            <option value="">Kies een nudi</option>
+                            <option th:each="n: ${allNudibranches}" th:value="${n.nudibranchId}" th:text="${n.commonName}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="sightingDate">Datum waarneming</label>
+                        <input class="form-control bg-secondary text-white border-info" id="sightingDate"
+                               th:field="*{dateOfSighting}" type="date">
+                        <!--  voor de errormessage-->
+                        <div class="text-danger"
+                             th:errors="*{dateOfSighting}"
+                             th:if="${#fields.hasErrors('dateOfSighting')}"></div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <label class="form-label text-white" for="sightingDescription">Beschrijving</label>
+                        <input class="form-control bg-secondary border-info" id="sightingDescription"
+                               th:field="*{description}" type="text">
+                    </div>
+                </div>
+
+
+                <!-- Save & Cancel -->
+                <div class="d-flex gap-2 mt-3">
+                    <button class="btn btn-outline-info" type="submit">Opslaan</button>
+                    <a class="btn btn-outline-secondary" th:href="@{/sightings-overview}">Cancel</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</main>
+
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

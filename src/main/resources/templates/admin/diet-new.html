@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/header :: headerelement(pageTitle)}"></head>
+<body class="details-page">
+<div th:replace="~{fragments/header :: navbar}"></div>
+<main class="container-fluid" th:if="${diet}" th:object="${diet}">
+    <h2 class="text-center display-4 mb-4 text-info">Maak een nieuw dieet aan</h2>
+    <div class="row justify-content-center">
+        <div class="col-12 bg-danger text-white mb-2"
+             th:if="${#fields.hasAnyErrors()}">
+            ERROR - data not saved
+        </div>
+
+
+        <form method="post" th:action="@{|/admin/diet-new|}" th:object="${diet}">
+
+            <div class="row mb-3">
+
+                <div class="col">
+                    <label class="form-label text-white" for="dietCommonName">Gewone naam</label>
+                    <input class="form-control bg-secondary text-white border-info" id="dietCommonName"
+                           th:field="*{dietCommonName}" type="text">
+                    <!--  voor de errormessage-->
+                    <div class="text-danger"
+                         th:errors="*{dietCommonName}"
+                         th:if="${#fields.hasErrors('dietCommonName')}"></div>
+                </div>
+                <div class="col">
+                    <label class="form-label text-white" for="dietScientificName">Wetenschappelijke naam</label>
+                    <input class="form-control bg-secondary text-white border-info" id="dietScientificName"
+                           th:field="*{dietScientificName}" type="text">
+                    <!--  voor de errormessage-->
+                    <div class="text-danger"
+                         th:errors="*{dietScientificName}"
+                         th:if="${#fields.hasErrors('dietScientificName')}"></div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <label class="form-label text-white" for="dietCategory">Categorie</label>
+                        <select class="form-select bg-secondary text-white border-info"
+                                id="dietCategory" th:field="*{dietCategory}">
+                            <option th:each="cat : ${categories}"
+                                    th:text="${cat.categoryName}"
+                                    th:value="${cat.categoryId}">
+                            </option>
+                        </select>
+                        <div class="text-danger" th:errors="*{dietCategory}"></div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <!-- Save & Cancel -->
+            <div class="d-flex gap-2 mt-3">
+                <button class="btn btn-outline-info" type="submit">Opslaan</button>
+                <a class="btn btn-outline-secondary" th:href="@{|/diet-overview|}">Annuleer</a>
+            </div>
+
+        </form>
+    </div>
+    </div>
+</main>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="nl"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/header :: headerelement(${pageTitle})}">
+</head>
+
+<body class="home">
+
+<!-- Navbar -->
+<div th:replace="~{fragments/header :: navbar}"></div>
+
+<main class="container text-center mt-5">
+
+    <!----------- Title ---------------------------------------->
+    <h1 class="display-3 mb-3"
+        sec:authorize="isAuthenticated()">
+        Welkom op NudiCentral,
+        <span sec:authentication="name"></span>
+    </h1>
+
+    <h1 class="display-3 mb-3"
+        sec:authorize="!isAuthenticated()">
+        Welkom op NudiCentral
+    </h1>
+
+    <!-- Intro -->
+    <p class="lead mb-4 justify-content-center">
+        Ontdek de fascinerende wereld van nudibranches en hun dieet.
+        Filter, bekijk details en leer meer over je favoriete soorten!
+    </p>
+
+    <!-- Call-to-action Buttons -->
+    <div class="d-flex flex-wrap justify-content-center gap-3 mb-5">
+        <a class="btn btn-outline-primary btn-lg"
+           th:href="@{/nudi-overview}">
+            Bekijk Nudibranches
+        </a>
+
+        <a class="btn btn-outline-primary btn-lg"
+           th:href="@{/diet-overview}">
+            Bekijk Dieëten
+        </a>
+
+        <a class="btn btn-outline-primary btn-lg"
+           th:href="@{/sightings}">
+            Bekijk Waarnemingen Kaart
+        </a>
+    </div>
+
+    <!-- Image -->
+    <div class="nudi-image mb-5">
+        <img src="/img/home.jpg"
+             alt="Kleurrijke nudibranch op een koraalrif"
+             class="img-fluid rounded shadow-lg"
+             style="max-height: 400px; object-fit: cover;">
+    </div>
+
+</main>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments/header :: headerelement(${pageTitle})}"></head>
+<body>
+<div th:replace="~{fragments/header :: navbar}"></div>
+<main class="container-fluid overview-page">
+    <h1>Waarnemingen per land</h1>
+
+    <div class="d-flex mb-3">
+        <button class="btn btn-primary mb-3 " data-bs-target="#filterModal" data-bs-toggle="modal">Filter waarnemingen
+        </button>
+        <div class="col text-start">
+            <a class="btn btn-outline-primary " th:href="@{|/user/sighting-new|}"
+               sec:authorize="hasAnyRole('USER','ADMIN')">Nieuwe waarneming loggen</a>
+        </div>
+        <div class="col text-end">
+            <a class="btn btn-outline-danger " th:href="@{|/admin/sighting-new|}"
+               sec:authorize="hasRole('ADMIN')">Admin waarneming loggen</a>
+        </div>
+    </div>
+
+    <!-- Filter Modal -->
+    <div aria-hidden="true" aria-labelledby="filterModalLabel" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false"
+         id="filterModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="filterModalLabel">Waarnemingen Filter</h5>
+                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <form method="get" th:action="@{|/sightings-overview|}">
+                        <!--Country-->
+                        <div class="mb-3">
+                            <label class="form-label" for="country">Land</label>
+                            <input class="form-control" id="country" name="country" placeholder="Filter op land..."
+                                   th:value="${param.country}" type="text">
+                        </div>
+                        <!--Divespot-->
+                        <div class="mb-3">
+                            <label class="form-label" for="divespot">Duikspot</label>
+                            <input class="form-control" id="divespot" name="divespot" placeholder="Filter op duikspot..."
+                                   th:value="${param.divespot}" type="text">
+                        </div>
+                        <!--Nudibranch-->
+                        <div class="mb-3">
+                            <label class="form-label" for="nudibranch">Nudi</label>
+                            <input class="form-control" id="nudibranch" name="nudibranch" placeholder="Filter op nudi..."
+                                   th:value="${param.nudibranch}" type="text">
+                        </div>
+
+
+
+
+                        <!-- Submit -->
+                        <button class="btn btn-primary float-end" type="submit">Filter</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- End Filter Modal -->
+    <div class="col-12" th:text="|${sightingsByCountry.size()} landen gevonden|"></div>
+
+
+    <div th:each="entry : ${sightingsByCountry}">
+        <!--string van locationcountry-->
+        <h2 class="text-center mt-4" th:text="${entry.key}"></h2>
+        <div class="d-flex flex-wrap justify-content-center">
+            <!--value kant van de hashmap is een sightings list-->
+            <div class="card" th:each="sighting : ${entry.value}">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${sighting.friend.getFriendName()}"></h5>
+                    <h6 class="card-title" th:text="${#temporals.format(sighting.dateOfSighting,'dd/MM/yyyy')}"></h6>
+                    <p class="card-text" th:text="'Divespot : ' + ${sighting.location.locationDivespot}"></p>
+                    <p class="card-text" th:text="'Nudibranch : ' + ${sighting.nudibranch.commonName}"></p>
+                    <p class="card-text text-white"
+                       th:if="${sighting.description != null and !#strings.isEmpty(sighting.description)}"
+                       style="font-style: italic;"
+                       th:text="${sighting.description}">
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

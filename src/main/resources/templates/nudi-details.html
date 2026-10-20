@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/header :: headerelement(${pageTitle})}"></head>
+
+<body>
+<div th:replace="~{fragments/header :: navbar}"></div>
+
+
+
+<main class="container-fluid details-page" th:object="${nudibranch}" th:if="${nudibranch}">
+    <h1>Nudi Details</h1>
+    <div class="d-flex mb-3">
+
+        <a th:href="@{|/admin/nudi-edit/${nudibranch.nudibranchId}|}" class="btn btn-outline-primary "
+           sec:authorize="hasRole('ADMIN')">Wijzig nudi details</a>
+    </div>
+    <div class="row mb-3">
+        <div class="col text-start">
+            <a class="btn btn-outline-primary" th:href="@{/nudi-details/{id}(id=${prevId})}">&lt;</a>
+        </div>
+        <div class="col text-end">
+            <a class="btn btn-outline-primary" th:href="@{/nudi-details/{id}(id=${nextId})}">&gt;</a>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-12 col-lg-4">
+            <div class="image-card"><img class="image-fixed" th:src="*{imageUrl}"></div>
+        </div>
+        <div class="col-12 col-lg-8">
+            <div class="details-card">
+                <div class="row row-cols-1 row-cols-md-2 g-3">
+                    <div class="col detail-card border-info">
+                        <h5>Naam</h5>
+                        <p th:text="*{commonName}"></p>
+                    </div>
+                    <div class="col detail-card border-info">
+                        <h5>Wetenschappelijke naam</h5>
+                        <p th:text="*{scientificName}"></p>
+                    </div>
+                    <div class="col detail-card border-info" th:unless="*{diets == null or diets.isEmpty()}">
+                        <h5>Favoriete maaltijd:</h5>
+                        <a th:each="diet : ${nudibranch.diets}" th:href="@{/diet-details/{id}(id=${diet.dietId})}" class="nav-link" th:text="${diet.dietCommonName}"></a>
+                    </div>
+                    <div class="col detail-card border-info" th:if="${!#strings.isEmpty(nudibranch.description)}">
+                        <h5>Beschrijving</h5>
+                        <p th:text="*{description}"></p>
+                    </div>
+                    <div class="col detail-card border-danger" th:if="*{venomous}">
+                        <h5>Opgelet !</h5>
+                        <p class="text-danger fw-bold">Giftig</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<!-- If no nudibranch selected -->
+<main class="container text-white" th:unless="${nudibranch}">
+    <p>No nudibranch selected!</p>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

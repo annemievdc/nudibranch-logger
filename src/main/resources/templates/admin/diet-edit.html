@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/header :: headerelement(${pageTitle})}"></head>
+<body class="details-page">
+
+<div th:replace="~{fragments/header :: navbar}"></div>
+
+<main class="container-fluid" th:if="${diet}" th:object="${diet}">
+
+    <h2 class="text-center display-4 mb-4 text-info" th:text="*{dietCommonName}"></h2>
+
+    <div class="row justify-content-center">
+        <div class="col-12 bg-danger text-white mb-2"
+             th:if="${#fields.hasAnyErrors()}">
+            ERROR - data not saved
+        </div>
+        <div class="col-12 col-lg-8 p-4 bg-dark rounded shadow-sm">
+
+            <form method="post" th:object="${diet}" th:action="@{|/admin/diet-edit/*{dietId}|}">
+
+                <!-- Common & Scientific Name -->
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="dietCommonName" class="form-label text-white">Naam</label>
+                        <input class="form-control bg-secondary text-white border-info" id="dietCommonName" th:field="*{dietCommonName}" type="text">
+                        <!--  voor de errormessage-->
+                        <div class="text-danger"
+                             th:errors="*{dietCommonName}"
+                             th:if="${#fields.hasErrors('dietCommonName')}"></div>
+                    </div>
+                    <div class="col">
+                        <label for="dietScientificName" class="form-label text-white">Wetenschappelijke Naam</label>
+                        <input class="form-control bg-secondary text-white border-info" id="dietScientificName" th:field="*{dietScientificName}" type="text">
+                        <!--  voor de errormessage-->
+                        <div class="text-danger"
+                             th:errors="*{dietScientificName}"
+                             th:if="${#fields.hasErrors('dietScientificName')}"></div>
+                    </div>
+                </div>
+
+                <!-- Image URL -->
+                <div class="mb-3">
+                    <label for="dietImgUrl" class="form-label text-white">Pad naar image</label>
+                    <input class="form-control bg-secondary text-white border-info" id="dietImgUrl" th:field="*{dietImageUrl}" type="text">
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+                    <label for="dietDescription" class="form-label text-white">Beschrijving</label>
+                    <textarea class="form-control bg-secondary text-white border-info" cols="10" id="dietDescription" rows="5" th:field="*{dietDescription}"></textarea>
+                </div>
+<!--
+                favorite meal of ...  can only be updated on the owner side of the m-to-m relationship - nudibranch is the owner!!!!!!-->
+
+
+
+                <!-- Save & Cancel -->
+                <div class="d-flex gap-2 mt-3">
+                    <button class="btn btn-outline-info" type="submit">Opslaan</button>
+                    <a class="btn btn-outline-secondary" th:href="@{|/diet-details/${dietId}|}">Annuleer</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</main>
+
+<main class="container text-white" th:unless="${diet}">
+    <p>Geen geldige dieet gekozen</p>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/header :: headerelement(${pageTitle})}"></head>
+
+<body class="home">
+
+<div th:replace="~{fragments/header :: navbar}"></div>
+
+<main class="container d-flex flex-column align-items-center py-5">
+
+    <div class="card shadow-sm p-4" style="max-width: 500px; width: 100%;">
+        <h1 class="display-6 text-center mb-3">Upload Nudi</h1>
+        <p class="text-muted text-center mb-4">
+            Spot je een nudi die nog niet bij ons bekend is? Deel ’m hier met ons!
+        </p>
+
+        <form enctype="multipart/form-data" method="post" th:action="@{/upload}">
+            <div class="mb-3">
+                <label class="form-label" for="imageInput">Kies een afbeelding</label>
+                <input class="form-control" id="imageInput" name="imageInput" type="file" accept="image/*">
+            </div>
+            <button class="btn btn-primary w-100" type="submit">
+                Uploaden
+            </button>
+        </form>
+    </div>
+    <div th:if="${imageUrl}" class="alert alert-success mt-4 text-center">
+        <h5 class="mb-2">Bedankt voor je foto!</h5>
+        <img class="img-fluid rounded mt-3"
+             style="max-height: 300px;"
+             th:src="@{|${@environment.getProperty('image-bucket-url')}/${imageUrl}|}"
+             alt="Geüploade afbeelding">
+    </div>
+
+
+
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>
+
+
+
+
+

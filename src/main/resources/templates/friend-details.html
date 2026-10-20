@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments/header :: headerelement(${pageTitle})}"></head>
+
+<body>
+<div th:replace="~{fragments/header :: navbar}"></div>
+
+<main class="container-fluid details-page" th:if="${friend}" th:object="${friend}">
+    <h1>Vrienden Details</h1>
+    <div class="d-flex mb-3">
+        <!-- Admin can always edit -->
+        <a class="btn btn-outline-primary"
+           sec:authorize="hasRole('ADMIN')"
+           th:href="@{|/admin/friend-edit/*{friendId}|}">
+            Wijzig details
+        </a>
+
+        <!-- User can edit ONLY himself -->
+        <a class="btn btn-outline-primary"
+           sec:authorize="hasRole('USER')"
+           th:if="${canEdit}"
+           th:href="@{/user/friend-edit}">
+            Wijzig details
+        </a>
+    </div>
+
+    <!--<span>DEBUG : </span>
+    <p sec:authorize="isAuthenticated()">
+        Logged in as: <span sec:authentication="name"></span>,
+        friendUsername: <span th:text="${friend.friendUsername}"></span>
+    </p>-->
+    <div class="row mb-3">
+        <div class="col text-start">
+            <a class="btn btn-outline-primary" th:href="@{/friend-details/{friendId}(friendId=${prevId})}">&lt;</a>
+        </div>
+        <div class="col text-end">
+            <a class="btn btn-outline-primary" th:href="@{/friend-details/{friendId}(friendId=${nextId})}">&gt;</a>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-12 col-lg-4">
+            <div class="image-card"><img alt="friend image" class="image-fixed" th:src="*{fullImgUrl}"></div>
+        </div>
+        <div class="col-12 col-lg-8">
+            <div class="details-card">
+
+                <!-- 2-column details grid -->
+                <div class="row row-cols-1 row-cols-md-2 g-3">
+                    <div class="col detail-card border-info">
+                        <h5>Username</h5>
+                        <p th:text="*{friendUsername}"></p>
+                    </div>
+                    <div class="col detail-card border-info">
+                        <h5>Naam</h5>
+                        <p th:text="*{friendName}"></p>
+                    </div>
+                    <div class="col detail-card border-info">
+                        <h5>Email</h5>
+                        <p th:text="*{friendEmail}"></p>
+                    </div>
+                    <div class="col detail-card border-info">
+                        <h5>Verjaardag</h5>
+                        <p th:text="*{#temporals.format(friendDob,'dd/MM/yyyy')}"></p>
+                    </div>
+                </div> <!-- end 2-column row -->
+
+                <!-- Sightings full width -->
+                <div class="row g-3 mt-3">
+                    <div class="col-12 detail-card border-info"
+                         th:if="${friend.sightings != null and !friend.sightings.isEmpty()}">
+                        <h5>Waarnemingen</h5>
+                        <div class="mb-2" th:each="sighting : ${friend.sightings}">
+                            <span th:text="${#temporals.format(sighting.dateOfSighting, 'dd/MM/yyyy')} + ' : '"></span>
+                            <a class="nav-link d-inline"
+                               th:href="@{/nudi-details/{id}(id=${sighting.nudibranch.nudibranchId})}"
+                               th:text="${sighting.nudibranch.commonName}"></a>
+                            <span th:text="' in ' + ${sighting.location.locationCountry}"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-12 detail-card border-danger"
+                         th:unless="${friend.sightings != null and !friend.sightings.isEmpty()}">
+                        <h5>Geen waarnemingen gevonden!</h5>
+                        <p class="text-danger fw-bold">
+                            Haal je duikbril boven, het is dringend tijd voor onderwater avontuur ...
+                        </p>
+                    </div>
+                </div> <!-- end sightings row -->
+            </div> <!-- end details-card -->
+        </div> <!-- end right column -->
+
+
+    </div>
+    </div>
+    </div>
+</main>
+
+
+<!-- If no diet selected -->
+<main class="container text-white" th:unless="${friend}">
+    <p>No friend selected!</p>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

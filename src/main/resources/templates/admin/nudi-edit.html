@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/header :: headerelement(${pageTitle})}"></head>
+<body class="details-page">
+
+<div th:replace="~{fragments/header :: navbar}"></div>
+
+<main class="container-fluid" th:if="${nudibranch}" th:object="${nudibranch}">
+
+    <h2 class="text-center display-4 mb-4 text-info" th:text="*{commonName}"></h2>
+
+    <div class="row justify-content-center">
+        <div class="col-12 bg-danger text-white mb-2"
+             th:if="${#fields.hasAnyErrors()}">
+            ERROR - data not saved
+        </div>
+        <div class="col-12 col-lg-8 p-4 bg-dark rounded shadow-sm">
+
+            <form method="post" th:action="@{|/admin/nudi-edit/*{nudibranchId}|}">
+
+                <!-- Common & Scientific Name -->
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="nudiCommonName" class="form-label text-white">Naam</label>
+                        <input class="form-control bg-secondary text-white border-info" id="nudiCommonName" th:field="*{commonName}" type="text">
+                        <!--  voor de errormessage-->
+                        <div class="text-danger"
+                             th:errors="*{commonName}"
+                             th:if="${#fields.hasErrors('commonName')}"></div>
+                    </div>
+                    <div class="col">
+                        <label for="nudiScientificName" class="form-label text-white">Wetenschappelijke Naam</label>
+                        <input class="form-control bg-secondary text-white border-info" id="nudiScientificName" th:field="*{scientificName}" type="text">
+                        <!--  voor de errormessage-->
+                        <div class="text-danger"
+                             th:errors="*{scientificName}"
+                             th:if="${#fields.hasErrors('scientificName')}"></div>
+                    </div>
+                </div>
+
+                <!-- Image URL -->
+                <div class="mb-3">
+                    <label for="nudiImgUrl" class="form-label text-white">Pad naar image</label>
+                    <input class="form-control bg-secondary text-white border-info" id="nudiImgUrl" th:field="*{imageUrl}" type="text">
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+                    <label for="nudiDescription" class="form-label text-white">Beschrijving</label>
+                    <textarea class="form-control bg-secondary text-white border-info" cols="10" id="nudiDescription" rows="5" th:field="*{description}"></textarea>
+                </div>
+
+                <!-- Favorite Meals -->
+                <div class="mb-3">
+                    <label for="nudiFood" class="form-label text-white">Favoriete maaltijd</label>
+                    <select id="nudiFood" class="form-select bg-secondary text-white border-info" th:field="*{diets}" multiple>
+                        <option value="0">Kies een dieet</option>
+                        <option th:each="d: ${allDiets}" th:value="${d.dietId}" th:text="${d.dietCommonName}"></option>
+                    </select>
+                </div>
+
+                <!-- Venomous -->
+                <div class="mb-3">
+                    <input type="radio" class="btn-check" name="options-outlined" id="nudiNonVenomous" autocomplete="off" th:field="*{venomous}" th:value="false">
+                    <label class="btn btn-outline-success m-1" for="nudiNonVenomous">Niet Giftig</label>
+
+                    <input type="radio" class="btn-check" name="options-outlined" id="nudiVenomous" autocomplete="off" th:field="*{venomous}" th:value="true">
+                    <label class="btn btn-outline-danger m-1" for="nudiVenomous">Giftig</label>
+                </div>
+
+                <!-- Save & Cancel -->
+                <div class="d-flex gap-2 mt-3">
+                    <button class="btn btn-outline-info" type="submit">Opslaan</button>
+                    <a class="btn btn-outline-secondary" th:href="@{|/nudi-details/${id}|}">Annuleer</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</main>
+
+<main class="container text-white" th:unless="${nudibranch}">
+    <p>Geen geldige nudi gekozen</p>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

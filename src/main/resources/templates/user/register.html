@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/header :: headerelement(${pageTitle})}"></head>
+
+<body class="home">
+
+<div th:replace="~{fragments/header :: navbar}"></div>
+<main class="container d-flex justify-content-center align-items-center auth-page">
+
+    <form class="auth-card w-100 w-md-50" method="post" th:action="@{/register}" th:object="${friend}" enctype="multipart/form-data">
+        <h2 class="text-center mb-4">Registreren</h2>
+
+        <div class="mb-3">
+            <label class="form-label">Naam</label>
+            <input th:field="*{friendName}" type="text" placeholder="Naam" required class="form-control auth-input"/>
+            <div th:errors="*{friendName}" class="text-danger mt-1"></div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input th:field="*{friendEmail}" type="email" placeholder="Email" required class="form-control auth-input"/>
+            <div th:errors="*{friendEmail}" class="text-danger mt-1"></div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Geboortedatum</label>
+            <input th:field="*{friendDob}" type="date" class="form-control auth-input"/>
+        </div>
+        <div class="mb-3">
+            <label for="imageFile">Kies een profielfoto</label>
+            <input type="file" id="imageFile" name="imageFile" class="form-control" accept="image/*">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input th:field="*{friendUsername}" type="text" placeholder="Username" required class="form-control auth-input"/>
+            <div th:errors="*{friendUsername}" class="text-danger mt-1"></div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Wachtwoord</label>
+            <input name="password" type="password" required class="form-control auth-input"/>
+        </div>
+<!--//voorkomt csrf attacks - door een malafide form te posten-->
+        <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+
+        <button class="btn btn-primary w-100 mt-3" type="submit">Registreer</button>
+    </form>
+</main>
+
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

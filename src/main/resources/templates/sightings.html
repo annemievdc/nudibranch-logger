@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Insert custom header -->
+    <th:insert th:replace="~{fragments/header :: headerelement(${pageTitle})}"></th:insert>
+
+    <!-- Highcharts Maps -->
+    <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+    <script src="https://code.highcharts.com/maps/modules/data.js"></script>
+    <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/maps/modules/accessibility.js"></script>
+
+
+</head>
+<body>
+<div th:replace="~{fragments/header :: navbar}"></div>
+<main class="container-fluid">
+    <h1 class="text-center">Waarnemingen</h1>
+    <!-- Map container -->
+    <div id="container" style="height: 600px; min-width: 600px;"></div>
+
+    <!-- Pass Thymeleaf data to JS -->
+    <script th:inline="javascript">
+        window.heatmapData = /*[[${heatmapData}]]*/ [];
+    </script>
+
+    <!-- Sightings JS -->
+    <script src="/js/sightings.js"></script>
+</main>
+
+<!-- Insert custom footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

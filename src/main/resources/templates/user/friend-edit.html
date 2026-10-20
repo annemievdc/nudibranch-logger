@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/header :: headerelement(${pageTitle})}"></head>
+<body class="details-page">
+
+<div th:replace="~{fragments/header :: navbar}"></div>
+
+<main class="container-fluid" th:if="${friend}" th:object="${friend}">
+
+    <h2 class="text-center display-4 mb-4 text-info" th:text="*{friendName}">Wijzig details vriend</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-12 bg-danger text-white mb-2"
+             th:if="${#fields.hasAnyErrors()}">
+            ERROR - data not saved
+        </div>
+        <div class="col-12 col-lg-8 p-4 bg-dark rounded shadow-sm">
+
+            <form method="post" th:action="@{/user/friend-edit}" enctype="multipart/form-data">
+                <input type="hidden" th:field="*{friendId}">
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label text-white" for="friendName">Naam</label>
+                        <input class="form-control bg-secondary text-white border-info" id="friendName"
+                               th:field="*{friendName}" type="text">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-white" for="friendEmail">Emailadres</label>
+                        <input class="form-control bg-secondary text-white border-info" id="friendEmail"
+                               th:field="*{friendEmail}" type="text">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col">
+                        <label class="form-label text-white" for="imageFile">Nieuwe profielfoto (optioneel)</label>
+                        <input class="form-control bg-secondary text-white border-info" id="imageFile"
+                               name="imageFile" type="file" accept="image/*">
+
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col">
+                        <label class="form-label text-white" for="friendDob">Verjaardag</label>
+                        <input class="form-control bg-secondary text-white border-info" id="friendDob"
+                               th:value="*{friendDob}" type="date">
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2 mt-3">
+                    <button class="btn btn-outline-info" type="submit">Opslaan</button>
+                    <a class="btn btn-outline-secondary" th:href="@{/friend-details/{id}(id=*{friendId})}">Annuleer</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</main>
+
+<main class="container text-white" th:unless="${friend}">
+    <p>Geen geldige vriend gekozen</p>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

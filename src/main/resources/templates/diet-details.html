@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments/header :: headerelement(${pageTitle})}"></head>
+
+<body>
+<div th:replace="~{fragments/header :: navbar}"></div>
+
+<main class="container-fluid details-page" th:if="${diet}" th:object="${diet}">
+    <h1>Dieet Details</h1>
+
+
+    <div class="d-flex mb-3">
+        <a class="btn btn-outline-primary "
+           th:href="@{|/admin/diet-edit/${diet.dietId}|}" sec:authorize="hasRole('ADMIN')" >Wijzig dieet details</a>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col text-start">
+            <a class="btn btn-outline-primary" th:href="@{/diet-details/{dietId}(dietId=${prevId})}">&lt;</a>
+        </div>
+        <div class="col text-end">
+            <a class="btn btn-outline-primary" th:href="@{/diet-details/{dietId}(dietId=${nextId})}">&gt;</a>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-12 col-lg-4">
+            <div class="image-card"><img class="image-fixed" th:src="*{dietImageUrl}"></div>
+        </div>
+        <div class="col-12 col-lg-8">
+            <div class="details-card">
+                <div class="row row-cols-1 row-cols-md-2 g-3">
+                    <div class="col detail-card border-info">
+                        <h5>Naam</h5>
+                        <p th:text="*{dietCommonName}"></p>
+                    </div>
+                    <div class="col detail-card border-info">
+                        <h5>Wetenschappelijke Naam</h5>
+                        <p th:text="*{dietScientificName}"></p>
+                    </div>
+                    <div class="col detail-card border-info" th:if="*{dietCategory}">
+                        <h5>Categorie</h5>
+                        <p th:text="*{dietCategory.categoryName}"></p>
+                    </div>
+                    <div class="col detail-card border-info"
+                         th:unless="*{nudibranches == null or nudibranches.isEmpty()}">
+                        <h5>Favoriete maaltijd van:</h5>
+                        <a class="nav-link"
+                           th:each="nudibranch : ${diet.nudibranches}" th:href="@{/nudi-details/{id}(id=${nudibranch.nudibranchId})}"
+                           th:text="${nudibranch.commonName}"></a>
+                    </div>
+                    <div class="col detail-card border-info" th:if="${!#strings.isEmpty(diet.dietDescription)}">
+                        <h5>Beschrijving</h5>
+                        <p th:text="*{dietDescription}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<!-- If no diet selected -->
+<main class="container text-white" th:unless="${diet}">
+    <p>No diet selected!</p>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

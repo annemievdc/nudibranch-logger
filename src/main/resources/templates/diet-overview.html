@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments/header :: headerelement(${pageTitle})}"></head>
+<body>
+<div th:replace="~{fragments/header :: navbar}"></div>
+
+<main class="container-fluid overview-page">
+    <h1>Dieëten</h1>
+
+    <div class="d-flex mb-3">
+        <button class="btn btn-primary mb-3 " data-bs-target="#filterModal" data-bs-toggle="modal">Filter dieëten
+        </button>
+        <div class="col text-start">
+            <a class="btn btn-outline-primary" th:href="@{/admin/diet-new}"
+               sec:authorize="hasRole('ADMIN')">Maak een nieuw dieet aan</a>
+        </div>
+    </div>
+
+    <div class="col-12" th:text="|${diets.size()} dieëten gevonden|"></div>
+    <!-- Filter Modal (same as before) -->
+    <div class="modal fade" id="filterModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Dieet Filter</h5>
+                    <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="get" th:action="@{/diet-overview}">
+                        <div class="mb-3">
+                            <label class="form-label" for="dietCommonName">Naam</label>
+                            <input class="form-control" id="dietCommonName" name="dietCommonName" th:value="${param.dietCommonName}"
+                                   type="text">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="dietScientificName">Wetenschappelijke naam</label>
+                            <input class="form-control" id="dietScientificName" name="dietScientificName" th:value="${param.dietScientificName}"
+                                   type="text">
+                        </div>
+                        <button class="btn btn-primary float-end" type="submit">Filter</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:each="entry : ${dietsByCategory}">
+        <h2 class="text-center mt-4" th:text="${entry.key}"></h2>
+        <div class="d-flex flex-wrap justify-content-center">
+            <div class="card" th:each="diet : ${entry.value}">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${diet.dietCommonName}"></h5>
+                    <p class="card-text" th:text="${diet.dietScientificName}"></p>
+                    <img class="img-thumbnail" th:src="@{${diet.dietImageUrl}}">
+                    <a class="btn btn-outline-info mt-2" th:href="@{/diet-details/{dietId}(dietId=${diet.dietId})}">Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>
