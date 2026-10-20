@@ -15,16 +15,18 @@ The application uses a server-rendered architecture with Thymeleaf templates and
 ## 📸 Screenshots
 
 - Home page
-- <img width="1885" height="897" alt="image" src="https://github.com/user-attachments/assets/fa6df934-ede4-4007-a640-4d2bc20da4dd" />
--Nudis overview
+<img width="1885" height="897" alt="image" src="https://github.com/user-attachments/assets/fa6df934-ede4-4007-a640-4d2bc20da4dd" />
+- Nudis overview
 <img width="1887" height="787" alt="image" src="https://github.com/user-attachments/assets/629b4ce5-3de2-4bb9-897e-c3d3bb774b56" />
--Nudi Details
+- Nudi Details
 <img width="1895" height="882" alt="image" src="https://github.com/user-attachments/assets/921c6678-3f8d-4966-b85d-41a0981747f7" />
--Friend Details
+- Friend Details
 <img width="1896" height="883" alt="image" src="https://github.com/user-attachments/assets/84a5d5a0-f1e9-4cb2-96b7-2843f29f5fb0" />
-
 - Dive log overview
-- <img width="1888" height="902" alt="image" src="https://github.com/user-attachments/assets/2ea2b91c-2314-4928-9117-b5139c706603" />
+<img width="1888" height="902" alt="image" src="https://github.com/user-attachments/assets/2ea2b91c-2314-4928-9117-b5139c706603" />
+- Map
+<img width="1891" height="901" alt="image" src="https://github.com/user-attachments/assets/25678601-4399-421e-b1a3-a1812b0e8806" />
+
 
 ## ✨ Features
 
